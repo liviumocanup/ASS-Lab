@@ -1,9 +1,28 @@
 export const API_URL = 'http://localhost:5207/api';
 // process.env.REACT_APP_DE;
-export const LOG_IN_ENDPOINT = 'auth/login';
-export const SIGN_UP_ENDPOINT = 'auth/register';
-export const REGISTER_ARTIST_ENDPOINT = 'artists';
-export const CREATE_SONG_ENDPOINT = 'songs';
+
+const AUTH_PATH = 'auth';
+export const LOG_IN_ENDPOINT = `${AUTH_PATH}/login`;
+export const SIGN_UP_ENDPOINT = `${AUTH_PATH}/register`;
+export const REFRESH_TOKEN_ENDPOINT = `${AUTH_PATH}/refresh`;
+
+export const UPLOAD_BLOB_ENDPOINT = 'blobs';
+
+export const SONG_ENDPOINT = 'songs';
+export const CURRENT_USER_SONGS_ENDPOINT = `${SONG_ENDPOINT}/user/current`;
+export const SONG_FILTERED_ENDPOINT = `${SONG_ENDPOINT}/filtered`;
+
+export const ARTIST_ENDPOINT = 'artists';
+export const CURRENT_USER_ARTIST_ENDPOINT = `${ARTIST_ENDPOINT}/current`;
+export const ARTIST_FILTERED_ENDPOINT = `${ARTIST_ENDPOINT}/filtered`;
+
+export const ALBUM_ENDPOINT = 'albums';
+export const CURRENT_USER_ALBUMS_ENDPOINT = `${ALBUM_ENDPOINT}/user/current`;
+
+export const USER_ENDPOINT = 'users';
+
+export const GENRE_ENDPOINT = 'genres';
+export const GENRE_FILTERED_ENDPOINT = `${GENRE_ENDPOINT}/filtered`;
 
 export const LS_TOKEN_KEY = 'token';
 export const LS_THEME_KEY = 'theme';
@@ -27,3 +46,8 @@ export const MONTHS = [
 
 export const MIN_YEAR = 1900;
 export const MIN_AGE = 13;
+
+export const IMAGE_CONTENT_TYPE = 'image/png, image/jpeg';
+export const AUDIO_CONTENT_TYPE = 'audio/mpeg, audio/wav';
+
+export const APP_GREEN = '#1DB954';

@@ -1,4 +1,4 @@
-import { Button, IconButton, Toolbar, Typography } from '@mui/material';
+import { IconButton, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 import { APP_TITLE } from '../constants';
@@ -8,14 +8,15 @@ import useAuthContext from '../../hooks/context/useAuthContext';
 import { StyledAppBar } from './AppBarStyle';
 import { ReactNode } from 'react';
 import { HOME_ROUTE } from '../../routes/routes';
-import CreateNew from './CreateNew';
+import StudioCreateButton from './StudioCreateButton';
+import LogInButton from './components/auth/LogInButton';
+import SignUpButton from './components/auth/SignUpButton';
 
 interface AppBarProps {
   open: boolean;
   handleDrawerOpen: () => void;
   drawerWidth?: number;
-  hideToggleOnOpen?: boolean;
-  showCreate: boolean;
+  showCreate?: boolean;
   avatarItems?: ReactNode[];
 }
 
@@ -23,9 +24,8 @@ const AppBar = ({
   open,
   handleDrawerOpen,
   drawerWidth = 0,
-  hideToggleOnOpen = true,
   avatarItems,
-  showCreate,
+  showCreate = false,
 }: AppBarProps) => {
   const { isLoggedIn } = useAuthContext();
 
@@ -48,7 +48,7 @@ const AppBar = ({
           sx={{
             ml: '1px',
             mr: 2,
-            ...(hideToggleOnOpen && open && { display: 'none' }),
+            ...(open && { display: 'none' }),
           }}
         >
           <MenuIcon />
@@ -65,29 +65,15 @@ const AppBar = ({
 
         <ThemeToggleButton />
 
-        {showCreate && <CreateNew />}
+        {showCreate && <StudioCreateButton />}
 
         {isLoggedIn ? (
           <UserAvatar menuItems={avatarItems} />
         ) : (
           <>
-            <Button
-              component={Link}
-              to="/signUp"
-              color="inherit"
-              sx={{ mr: 1 }}
-            >
-              Sign Up
-            </Button>
+            <SignUpButton />
 
-            <Button
-              component={Link}
-              to="/logIn"
-              color="inherit"
-              variant="outlined"
-            >
-              Log in
-            </Button>
+            <LogInButton />
           </>
         )}
       </Toolbar>

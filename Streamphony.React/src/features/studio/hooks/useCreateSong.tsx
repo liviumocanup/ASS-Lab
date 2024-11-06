@@ -1,6 +1,6 @@
-import { CreateSongData } from '../../../shared/Interfaces';
+import { CreateSongData } from '../../../shared/interfaces/Interfaces';
 import axios from 'axios';
-import { API_URL, CREATE_SONG_ENDPOINT } from '../../../shared/constants';
+import { API_URL, SONG_ENDPOINT } from '../../../shared/constants';
 import { useMutation } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import useAuthContext from '../../../hooks/context/useAuthContext';
@@ -19,21 +19,19 @@ const useCreateSong = () => {
   const addSong = async (newSong: CreateSongData) => {
     try {
       const res = await axios.post(
-        `${API_URL}/${CREATE_SONG_ENDPOINT}`,
+        `${API_URL}/${SONG_ENDPOINT}`,
         newSong,
         config,
       );
 
-      const song = res.data.song;
+      console.log('Response: ', res.data);
 
-      console.log(res.data);
-
-      return song;
+      return;
     } catch (err: any) {
+      console.log(err);
       if (axios.isAxiosError(err)) {
         throw new Error(err.message);
       } else {
-        console.log(err);
         throw new Error(err.response.data.errors);
       }
     }

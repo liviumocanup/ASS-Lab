@@ -1,12 +1,12 @@
-import { RegisterArtistData } from '../../../shared/Interfaces';
+import { RegisterArtistData } from '../../../shared/interfaces/Interfaces';
 import axios from 'axios';
-import { API_URL, REGISTER_ARTIST_ENDPOINT } from '../../../shared/constants';
+import { API_URL, ARTIST_ENDPOINT } from '../../../shared/constants';
 import { useMutation } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import useAuthContext from '../../../hooks/context/useAuthContext';
 
 const useRegisterArtist = () => {
-  const { getToken } = useAuthContext();
+  const { getToken, tokenRefresh } = useAuthContext();
   const token = getToken();
 
   const config = useMemo(
@@ -19,21 +19,18 @@ const useRegisterArtist = () => {
   const addArtist = async (newArtist: RegisterArtistData) => {
     try {
       const res = await axios.post(
-        `${API_URL}/${REGISTER_ARTIST_ENDPOINT}`,
+        `${API_URL}/${ARTIST_ENDPOINT}`,
         newArtist,
         config,
       );
 
-      const artist = res.data.artist;
-
-      console.log(res.data);
-
-      return artist;
+      const token = res.data.accessToken;
+      tokenRefresh(token);
     } catch (err: any) {
+      console.log(err);
       if (axios.isAxiosError(err)) {
         throw new Error(err.message);
       } else {
-        console.log(err);
         throw new Error(err.response.data.errors);
       }
     }

@@ -4,19 +4,17 @@ import { Helmet } from 'react-helmet-async';
 import { APP_TITLE } from '../../shared/constants';
 import AccountCabSection from './components/AccountCabSection';
 import SecurityCabSection from './components/SecurityCabSection';
-import AppBarWrapper from './AppBarWrapper';
-import LoadingSpinner from '../../shared/LoadingSpinner';
-import useGetUserDetails from '../../hooks/useGetUserDetails';
+import AppBarWrapper from '../../shared/drawer/AppBarWrapper';
 import useTokenStorage from '../../hooks/localStorage/useTokenStorage';
+import useAuthContext from '../../hooks/context/useAuthContext';
 
 const AccountCabinet = () => {
-  const { data: userDetails, isPending } = useGetUserDetails();
-  const { getUserClaims } = useTokenStorage();
-  const { firstName, lastName } = getUserClaims();
+  const { isArtist } = useAuthContext();
+  const { getTokenClaims } = useTokenStorage();
 
-  if (isPending) {
-    return <LoadingSpinner />;
-  }
+  const tokenClaims = getTokenClaims();
+  const firstName = tokenClaims?.firstName || '';
+  const lastName = tokenClaims?.lastName || '';
 
   return (
     <>
@@ -25,15 +23,17 @@ const AccountCabinet = () => {
         <meta name="description" content="Your account settings" />
       </Helmet>
 
-      <AppBarWrapper />
+      <AppBarWrapper
+        children={
+          <Box className="CenteredContainer">
+            <Toolbar />
 
-      <Box sx={{ flexGrow: 1, mt: 8 }} className="WidthCentered">
-        <Toolbar />
+            <AccountCabSection isArtist={isArtist} />
 
-        <AccountCabSection isArtist={userDetails!.isArtistLinked} />
-
-        <SecurityCabSection />
-      </Box>
+            <SecurityCabSection />
+          </Box>
+        }
+      />
     </>
   );
 };
